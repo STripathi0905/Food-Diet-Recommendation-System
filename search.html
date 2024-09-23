@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Food Data</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("static/food2.jpg");
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 60px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        #search {
+            display: block;
+            margin: 0 auto 30px auto;
+            width: 100%;
+            max-width: 600px;
+            height: 45px;
+            font-size: 20px;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 15px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #28a745;
+            color: white;
+            border-top: 2px solid #28a745;
+            font-size: 18px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e9f7ef;
+        }
+
+        tr:hover {
+            background-color: #d4edda;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <input type="text" id="search" class="form-control" placeholder="Search food...">
+
+        <table class="table table-hover" id="detail-table">
+            <thead>
+                <tr>
+                    <th>Nutrient</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Calories</td>
+                    <td id="Calories"></td>
+                </tr>
+                <tr>
+                    <td>Total Fat</td>
+                    <td id="total-fat"></td>
+                </tr>
+                <tr>
+                    <td>Saturated Fat</td>
+                    <td id="saturated-fat"></td>
+                </tr>
+                <tr>
+                    <td>Sugar</td>
+                    <td id="sugar"></td>
+                </tr>
+                <tr>
+                    <td>Protein</td>
+                    <td id="protein"></td>
+                </tr>
+                <tr>
+                    <td>Calcium</td>
+                    <td id="calcium"></td>
+                </tr>
+                <tr>
+                    <td>Iron</td>
+                    <td id="iron"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Food name</th>
+                    <th>Category</th>
+                    <th>Calories</th>
+                    <th>Fat</th>
+                    <th>Protein</th>
+                    <th>Sugars</th>
+                    <th>Iron</th>
+                    <th>Calcium</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                {% for row in rows %}
+                <tr onclick="showDetails(this)">
+                    <td>{{ row['Descrip'] }}</td>
+                    <td>{{ row['category'] }}</td>
+                    <td>{{ row['Energy_kcal'] }}</td>
+                    <td>{{ row['Fat_g'] }}</td>
+                    <td>{{ row['Protein_g'] }}</td>
+                    <td>{{ row['Sugar_g'] }}</td>
+                    <td>{{ row['Iron_mg'] }}</td>
+                    <td>{{ row['Calcium_mg'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('search');
+        const tableBody = document.getElementById('table-body');
+        const rows = tableBody.getElementsByTagName('tr');
+        const detailTable = document.getElementById('detail-table');
+
+        searchInput.addEventListener('keyup', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            for (let i = 0; i < rows.length; i++) {
+                const descrip = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+                if (descrip.includes(searchTerm)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        });
+
+        function showDetails(row) {
+            detailTable.style.display = 'table';
+            document.getElementById('Calories').textContent = row.getElementsByTagName('td')[2].textContent;
+            document.getElementById('total-fat').textContent = row.getElementsByTagName('td')[3].textContent;
+            document.getElementById('saturated-fat').textContent = row.getElementsByTagName('td')[3].textContent; // Example
+            document.getElementById('sugar').textContent = row.getElementsByTagName('td')[5].textContent;
+            document.getElementById('protein').textContent = row.getElementsByTagName('td')[4].textContent;
+            document.getElementById('calcium').textContent = row.getElementsByTagName('td')[7].textContent;
+            document.getElementById('iron').textContent = row.getElementsByTagName('td')[6].textContent;
+        }
+    </script>
+</body>
+
+</html>

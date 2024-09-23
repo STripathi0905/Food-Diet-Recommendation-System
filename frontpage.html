@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food/Diet Prediction</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('static/food2.jpg');
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        h1 {
+            background-color: #ff6347;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            font-size: 2rem;
+        }
+
+        form {
+            margin-top: 50px;
+        }
+
+        label {
+            background-color: #f0e68c;
+            color: #333;
+            padding: 12px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            width: 50%;
+            display: inline-block;
+            margin-bottom: 10px;
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="submit"],
+        button {
+            background-color: #ff6347;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #ff4500;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-check-label {
+            margin-left: 10px;
+        }
+
+        .checkbox-section {
+            margin-top: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-custom {
+            margin: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-muscle {
+            background-color: #1e90ff;
+        }
+
+        .btn-muscle:hover {
+            background-color: #1c86ee;
+            transform: translateY(-4px);
+        }
+
+        .btn-weightgain {
+            background-color: #ffd700;
+        }
+
+        .btn-weightgain:hover {
+            background-color: #ffc700;
+            transform: translateY(-4px);
+        }
+
+        .btn-weightloss {
+            background-color: #ff4500;
+        }
+
+        .btn-weightloss:hover {
+            background-color: #ff2400;
+            transform: translateY(-4px);
+        }
+
+        .btn-usda {
+            background-color: #32cd32;
+        }
+
+        .btn-usda:hover {
+            background-color: #2eb82e;
+            transform: translateY(-4px);
+        }
+
+        .food-details {
+            margin-top: 50px;
+        }
+
+        .food-details a {
+            display: block;
+            margin-bottom: 12px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .food-details a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+        .food-details {
+    background-color: #f8f9fa; /* Light background for the section */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.food-details h2 {
+    color: #007bff; /* Primary color for the heading */
+}
+
+.food-details p {
+    color:#6c757d; /* Secondary color for the paragraph */
+}
+
+.food-details a {
+    display: block;
+    margin-bottom: 10px;
+    color: #007bff; /* Link color */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.food-details a:hover {
+    color: #0056b3; /* Darker shade for hover effect */
+    text-decoration: underline;
+}
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        <h1>Food/Diet Prediction</h1>
+        {% if result %}
+        <p class="alert alert-success text-center">The predicted food class is: {{ result }}</p>
+        {% endif %}
+        <p class="text-center">Values of the food in grams (g):</p>
+        <form action="/predict" method="POST">
+            <div class="form-group">
+                <label for="input_1">Calories:</label>
+                <input type="number" id="input_1" name="input_1" step="0.01" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="input_2">Protein:</label>
+                <input type="number" id="input_2" name="input_2" step="0.01" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="input_3">Fibre:</label>
+                <input type="number" id="input_3" name="input_3" step="0.01" class="form-control" required>
+            </div>
+        </form>
+
+        <form action="/musclegain" method="POST" class="mt-5">
+            <div class="checkbox-section">
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="vegetarian" value="vegetarian" class="form-check-input">
+                    <label class="form-check-label">Vegetarian</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="non-vegetarian" value="non-vegetarian" class="form-check-input">
+                    <label class="form-check-label">Non-Vegetarian</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="iron" value="iron" class="form-check-input">
+                    <label class="form-check-label">Iron</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="calcium" value="calcium" class="form-check-input">
+                    <label class="form-check-label">Calcium</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="anyfoods" value="anyfoods" class="form-check-input">
+                    <label class="form-check-label">Any</label>
+                </div>
+            </div>
+            <input type="submit" value="Muscle gain" class="btn btn-custom btn-muscle">
+        </form>
+
+        {% if musclegainfoods %}
+        <h2 class="text-center mt-5">Filtered Foods</h2>
+        <p class="text-center">Here are 5 random foods from the "Muscle_Gain" category:</p>
+        <ul class="list-group text-center mx-auto w-50">
+            {% for item in musclegainfoods.split('\n') %}
+            <li class="list-group-item">{{ item }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form action="/weightgain" method="POST" class="mt-5">
+            <div class="checkbox-section">
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="vegetarian" value="vegetarian" class="form-check-input">
+                    <label class="form-check-label">Vegetarian</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="non-vegetarian" value="non-vegetarian" class="form-check-input">
+                    <label class="form-check-label">Non-Vegetarian</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="iron" value="iron" class="form-check-input">
+                    <label class="form-check-label">Iron</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="calcium" value="calcium" class="form-check-input">
+                    <label class="form-check-label">Calcium</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="anyfoods" value="anyfoods" class="form-check-input">
+                    <label class="form-check-label">Any</label>
+                </div>
+            </div>
+            <input type="submit" value="Weight gain" class="btn btn-custom btn-weightgain">
+        </form>
+
+        {% if weightgainfoods %}
+        <h2 class="text-center mt-5">Filtered Foods</h2>
+        <p class="text-center">Here are 5 foods from the "Weight Gain" category:</p>
+        <ul class="list-group text-center mx-auto w-50">
+            {% for item in weightgainfoods.split('\n') %}
+            <li class="list-group-item">{{ item }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form action="/weightloss" method="POST" class="mt-5">
+            <div class="checkbox-section">
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="vegetarian" value="vegetarian" class="form-check-input">
+                    <label class="form-check-label">Vegetarian</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="non-vegetarian" value="non-vegetarian" class="form-check-input">
+                    <label class="form-check-label">Non-Vegetarian</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="iron" value="iron" class="form-check-input">
+                    <label class="form-check-label">Iron</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="calcium" value="calcium" class="form-check-input">
+                    <label class="form-check-label">Calcium</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" name="anyfoods" value="anyfoods" class="form-check-input">
+                    <label class="form-check-label">Any</label>
+                </div>
+            </div>
+            <input type="submit" value="Weight loss" class="btn btn-custom btn-weightloss">
+        </form>
+
+        {% if weightlossfoods %}
+        <h2 class="text-center mt-5">Filtered Foods</h2>
+        <p class="text-center">Here are 5 random foods from the "Weight Loss" category:</p>
+        <ul class="list-group text-center mx-auto w-50">
+            {% for item in weightlossfoods.split('\n') %}
+            <li class="list-group-item">{{ item }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form method="post" action="{{ url_for('search') }}" class="mt-5">
+            <button type="submit" class="btn btn-custom btn-usda">USDA Food data</button>
+        </form>
+
+        <div class="food-details mt-5 p-4 bg-light rounded shadow">
+            <h2 class="text-center text-primary">Food Item Details</h2>
+            <p class="text-center text-secondary">Here you can find detailed information about various food items:</p>
+            <a href="https://fdc.nal.usda.gov/" target="_blank" class="food-link">USDA Food Data</a>
+            <a href="https://www.nutritionvalue.org/" target="_blank" class="food-link">Nutrition Value</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
