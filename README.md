@@ -40,7 +40,3 @@ Example: `http://localhost:5000/`
 - **Scikit-learn (model loading)**
 - **HTML + CSS (frontpage UI)**
 
----
-
-## 📦 Folder Structure
-
