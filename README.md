@@ -23,12 +23,6 @@ Built with **Flask**, **Python**, and a clean visual UI.
 - 📋 Displays filtered food names from CSV-based dataset
 - 🖥️ User-friendly interface with background images and styled buttons
 
----
-
-## 🚀 Live Demo (Optional)
-
-> *(Add a link if hosted on Render, Heroku, or local IP)*  
-Example: `http://localhost:5000/`
 
 ---
 
